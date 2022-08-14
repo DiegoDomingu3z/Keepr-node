@@ -1,3 +1,4 @@
+import { Auth0Provider } from "@bcwdev/auth0provider";
 import { keepsService } from "../services/KeepsService";
 import BaseController from "../utils/BaseController";
 
@@ -10,7 +11,9 @@ export class KeepsController extends BaseController {
         this.router
             .get('', this.getAll)
             .get('/:id', this.getById)
+            .use(Auth0Provider.getAuthorizedUserInfo)
             .post('', this.create)
+            .put('/:id', this.edit)
     }
 
 
@@ -26,6 +29,7 @@ export class KeepsController extends BaseController {
     async getById(req, res, next) {
         try {
             const keep = await keepsService.getById(req.params.id)
+            return res.send(keep)
         } catch (error) {
             next(error)
         }
@@ -35,8 +39,20 @@ export class KeepsController extends BaseController {
         try {
             req.body.creatorId = req.userInfo.id
             const newKeep = await keepsService.create(req.body)
+            return res.send(newKeep)
         } catch (error) {
             next(error)
         }
     }
+
+    async edit(req, res, next) {
+        try {
+            req.body.creatorId = req.userInfo.id
+            const updatedKeep = await keepsService.update(req.params.id, req.body)
+            return res.send(updatedKeep)
+        } catch (error) {
+            next(error)
+        }
+    }
+
 }

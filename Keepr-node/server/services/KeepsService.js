@@ -26,9 +26,9 @@ class KeepsService {
 
     async update(id, updated) {
         const original = await dbContext.Keep.findById(id).populate('creator')
-        if (original.creatorId.toString() != updated.creatorId) {
-            throw new BadRequest('Forbidden')
-        }
+        // if (original.creatorId.toString() != updated.creatorId) {
+        //     throw new BadRequest('Forbidden')
+        // }
     }
 
 }
