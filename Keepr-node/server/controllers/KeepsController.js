@@ -13,8 +13,10 @@ export class KeepsController extends BaseController {
             .get('/:id', this.getById)
             .use(Auth0Provider.getAuthorizedUserInfo)
             .post('', this.create)
-            .put('/:id', this.edit)
+            // .put('/:id', this.edit)
+            .delete('/:id', this.remove)
     }
+
 
 
     async getAll(req, res, next) {
@@ -45,14 +47,26 @@ export class KeepsController extends BaseController {
         }
     }
 
-    async edit(req, res, next) {
+
+    async remove(req, res, next) {
         try {
-            req.body.creatorId = req.userInfo.id
-            const updatedKeep = await keepsService.update(req.params.id, req.body)
-            return res.send(updatedKeep)
+            await keepsService.remove(req.params.id, req.userInfo.id)
+            return res.send("deleted")
         } catch (error) {
             next(error)
         }
     }
+
+
+    //NOTE might not need an update
+    // async edit(req, res, next) {
+    //     try {
+    //         req.body.creatorId = req.userInfo.id
+    //         const updatedKeep = await keepsService.update(req.params.id, req.body)
+    //         return res.send(updatedKeep)
+    //     } catch (error) {
+    //         next(error)
+    //     }
+    // }
 
 }

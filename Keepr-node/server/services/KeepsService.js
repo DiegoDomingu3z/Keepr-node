@@ -24,12 +24,23 @@ class KeepsService {
         return newKeep
     }
 
-    async update(id, updated) {
-        const original = await dbContext.Keep.findById(id).populate('creator')
-        // if (original.creatorId.toString() != updated.creatorId) {
-        //     throw new BadRequest('Forbidden')
-        // }
+    async remove(id, userId) {
+        const keep = await dbContext.Keep.findById(id)
+        if (keep.creatorId != userId) {
+            throw new BadRequest("Forbidden")
+        }
+        keep?.remove()
+
     }
+
+
+    //NOTE might not need an update
+    // async update(id, updated) {
+    //     const original = await dbContext.Keep.findById(id).populate('creator')
+    //     if (original?.creatorId?.toString() != updated.creatorId) {
+    //         throw new BadRequest('Forbidden')
+    //     }
+    // }
 
 }
 
