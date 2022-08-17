@@ -12,9 +12,9 @@ class KeepsService {
 
     async getById(id) {
         const keep = await dbContext.Keep.findById(id).populate('creator', 'name')
-        if (id == null) {
-            throw new BadRequest('Invalid Id')
-        }
+        // if (id == null) {
+        //     throw new BadRequest('Invalid Id')
+        // }
         return keep
     }
 
@@ -24,17 +24,19 @@ class KeepsService {
         return newKeep
     }
 
-    async remove(id, userId) {
-        const keep = await dbContext.Keep.findById(id)
-        if (keep.creatorId != userId) {
-            throw new BadRequest("Forbidden")
-        }
-        keep?.remove()
+    // async remove(id, userId) {
 
-    }
+    //     const keep = await dbContext.Keep.findById(id)
+    //     const creatorId = keep?.creatorId
+    //     if (creatorId.toString() != userId) {
+    //         throw new BadRequest("Forbidden")
+    //     }
+    //     keep?.remove()
+
+    // }
 
 
-    //NOTE might not need an update
+    // NOTE might not need an update
     // async update(id, updated) {
     //     const original = await dbContext.Keep.findById(id).populate('creator')
     //     if (original?.creatorId?.toString() != updated.creatorId) {

@@ -13,8 +13,8 @@ export class KeepsController extends BaseController {
             .get('/:id', this.getById)
             .use(Auth0Provider.getAuthorizedUserInfo)
             .post('', this.create)
-            // .put('/:id', this.edit)
-            .delete('/:id', this.remove)
+        // .put('/:id', this.edit)
+        // .delete('/:id', this.remove)
     }
 
 
@@ -48,14 +48,14 @@ export class KeepsController extends BaseController {
     }
 
 
-    async remove(req, res, next) {
-        try {
-            await keepsService.remove(req.params.id, req.userInfo.id)
-            return res.send("deleted")
-        } catch (error) {
-            next(error)
-        }
-    }
+    // async remove(req, res, next) {
+    //     try {
+    //         await keepsService.remove(req.params.id, req.userInfo.id)
+    //         return res.send("deleted")
+    //     } catch (error) {
+    //         next(error)
+    //     }
+    // }
 
 
     //NOTE might not need an update
